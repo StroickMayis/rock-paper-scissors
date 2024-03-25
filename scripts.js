@@ -115,4 +115,24 @@ function playGame() {
     }
 }
 
-playGame();
+// playGame();
+
+const topContainer = document.querySelector(".topContainer");
+
+topContainer.addEventListener("click", (event) => {
+    let target = event.target;
+    switch(target.id) {
+        case "rock":
+            console.log("rock");
+        break;
+
+        case "paper":
+            console.log("paper");
+        break;
+
+        case "scissors":
+            console.log("scissors");
+        break;
+    }
+});
+
