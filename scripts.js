@@ -2,137 +2,109 @@
 
 let playerWins = 0;
 let computerWins = 0;
+let playerChoice = 0;
+let outcome = "";
 
-// computer choice between 2-4.
+const topContainer = document.querySelector(".topContainer");
+const outcomeDisplay = document.querySelector("#outcomeDisplay");
+const playerRoundWinsDisplay = document.querySelector("#playerRoundWinsDisplay");
+const computerRoundWinsDisplay = document.querySelector("#computerRoundWinsDisplay");
+const playerChoiceDisplay = document.querySelector("#playerChoiceDisplay");
+const computerChoiceDisplay = document.querySelector("#computerChoiceDisplay");
+
 function getComputerChoice() {
     return Math.floor(Math.random() * 3 + 2);
 }
 
-// returns either 2-4 ( choice ) or 0 ( invalid choice )
-function getPlayerChoice() {
-    let playerInput = prompt("Guess: Rock, Paper or Scissors!");
-    playerInput = playerInput.toLowerCase();
-
-    // Convert playerInput into number for easier handling.
-    switch (playerInput) {
-        case "rock" :
-                return 2;
-            break;
-        case "paper" :
-                return 3;
-            break;
-        case "scissors" :
-                return 4;
-            break;
-        default :
-        console.log(`Sorry, \"${playerInput}\" is not a valid guess.`);
-        return 0;
-    }
-}
-
 function convertChoiceToString(choice){
     if (choice === 2) {
-        return "Rock!";
+        return "ROCK";
     } else if (choice === 3) {
-        return "Paper!";
+        return "PAPER";
     } else if (choice === 4) {
-        return "Scissors!";
+        return "SCISSORS";
     } else {
         return " ";
     }
 }
 
-function playRound() {
+topContainer.addEventListener("click", (event) => {
+    let target = event.target;
+    switch(target.id) {
+        case "rock":
+            playerChoice = 2;
+        break;
+
+        case "paper":
+            playerChoice = 3;
+        break;
+
+        case "scissors":
+            playerChoice = 4;
+        break;
+    }
+    let playerChoiceString = convertChoiceToString(playerChoice);
+    playerChoiceDisplay.textContent = `${playerChoiceString}`;
+    let computerChoice = getComputerChoice();
+    let computerChoiceString = convertChoiceToString(computerChoice);
+    computerChoiceDisplay.textContent = `${computerChoiceString}`;
     function calcRoundWinner(){
         if(computerChoice == playerChoice) {
-            console.log("It's a tie!");
+            outcome = "-";
             return 0;
         }
         // The Following 3 "else if's" handle the win decision logic, round winner console messages & adding to the win counts of CPU or Player.
-         else if (computerChoice == 2) {
+            else if (computerChoice == 2) {
             if (playerChoice == 3) {
-                console.log("Paper beats Rock, you win the round!");
+                outcome = "WIN";
                 playerWins++;
                 return 1;
             } else {
-                console.log("Rock beats Scissors, you lose the round!");
+                outcome = "LOSS";
                 computerWins++
                 return 1;
             }
         } else if (computerChoice == 3) {
             if (playerChoice == 4) {
-                console.log("Scissors beats Paper, you win the round!");
+                outcome = "WIN";
                 playerWins++;
                 return 1;
             } else {
-                console.log("Paper beats Rock, you lose the round!");
+                outcome = "LOSS";
                 computerWins++
                 return 1;
             }
         } else if (computerChoice == 4) {
             if (playerChoice == 2) {
-                console.log("Rock beats Scissors, you win the round!");
+                outcome = "WIN";
                 playerWins++;
                 return 1;
             } else {
-                console.log("Scissors beats Paper, you lose the round!");
+                outcome = "LOSS";
                 computerWins++;
                 return 1;
             }
         }
         // This is an easter egg message, should not ever pop up in-game, I think... 
         else {
-            console.log("How on earth did you get this message to pop up?");
+            outcome = "HUH?";
         }
     }
-    function displayChoices() { 
-        let computerChoiceString = convertChoiceToString(computerChoice)
-        let playerChoiceString = convertChoiceToString(playerChoice)
-        console.log(`YOU: ${playerChoiceString}`)
-        console.log(`CPU: ${computerChoiceString}`)
-    }
-
-    let computerChoice = getComputerChoice();
-    let playerChoice = getPlayerChoice(); 
-    if (playerChoice === 0) {
-        return 0;
-    }
-    displayChoices();
     calcRoundWinner();
-}
-
-// Continues playing Rounds until either of the contestant's wins add up to a total of 5.
-function playGame() {
-    
-    while ((playerWins + computerWins) <= 4) {
-            playRound();
-    }
-
-    if (playerWins > computerWins) {
-        console.log(`Congratulations! Out of 5 rounds, you beat the Computer ${playerWins} to ${computerWins}!`);
-    } else {
-        console.log(`Bummer! Out of 5 rounds you lost to the Computer ${playerWins} to ${computerWins}!`);
-    }
-}
-
-// playGame();
-
-const topContainer = document.querySelector(".topContainer");
-
-topContainer.addEventListener("click", (event) => {
-    let target = event.target;
-    switch(target.id) {
-        case "rock":
-            console.log("rock");
-        break;
-
-        case "paper":
-            console.log("paper");
-        break;
-
-        case "scissors":
-            console.log("scissors");
-        break;
+    outcomeDisplay.textContent = `${outcome}`;
+    playerRoundWinsDisplay.textContent = `YOUR WINS: ${playerWins}`;
+    computerRoundWinsDisplay.textContent = `CPU WINS: ${computerWins}`;
+    playerChoice = 0;
+    if (playerWins >= 5 || computerWins >= 5) {
+        if (playerWins > computerWins) {
+            outcome = `CONGRATULATIONS! YOU HAVE WON ${playerWins} to ${computerWins}!`;
+            outcomeDisplay.textContent = `${outcome}`;
+        } else {
+            outcome = `BRUH... 
+            YOU LOST ${playerWins} to ${computerWins}.`;
+            outcomeDisplay.textContent = `${outcome}`;
+        }
+        playerWins = 0;
+        computerWins = 0;
     }
 });
-

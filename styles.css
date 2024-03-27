@@ -4,6 +4,7 @@
     background-color: rgb(25, 25, 29);
     color: white;
     box-sizing: border-box;
+    font-size: x-large;
 }
 
 body {
@@ -30,6 +31,9 @@ body {
     flex-direction: column;
     padding: 2dvh;
     margin-top: -1dvh;
+    flex: 0 1 auto;
+    min-height: 50dvh;
+    min-width: 130dvh;
 }
 
 .botContainer div {
@@ -63,8 +67,9 @@ body {
     justify-content: center;
 }
 
-.subTopContainer div {
-    flex: auto;
+.subTopContainer div,
+.subBotContainer div {
+    flex: 1 1 30dvh;
 }
 
 .subBotContainer {
