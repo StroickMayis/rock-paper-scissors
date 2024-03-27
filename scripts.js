@@ -30,81 +30,83 @@ function convertChoiceToString(choice){
 
 topContainer.addEventListener("click", (event) => {
     let target = event.target;
-    switch(target.id) {
-        case "rock":
-            playerChoice = 2;
-        break;
+    if (target.id !== "") {
+        switch(target.id) {
+            case "rock":
+                playerChoice = 2;
+            break;
 
-        case "paper":
-            playerChoice = 3;
-        break;
+            case "paper":
+                playerChoice = 3;
+            break;
 
-        case "scissors":
-            playerChoice = 4;
-        break;
-    }
-    let playerChoiceString = convertChoiceToString(playerChoice);
-    playerChoiceDisplay.textContent = `${playerChoiceString}`;
-    let computerChoice = getComputerChoice();
-    let computerChoiceString = convertChoiceToString(computerChoice);
-    computerChoiceDisplay.textContent = `${computerChoiceString}`;
-    function calcRoundWinner(){
-        if(computerChoice == playerChoice) {
-            outcome = "-";
-            return 0;
+            case "scissors":
+                playerChoice = 4;
+            break;
         }
-        // The Following 3 "else if's" handle the win decision logic, round winner console messages & adding to the win counts of CPU or Player.
-            else if (computerChoice == 2) {
-            if (playerChoice == 3) {
-                outcome = "WIN";
-                playerWins++;
-                return 1;
-            } else {
-                outcome = "LOSS";
-                computerWins++
-                return 1;
+        let playerChoiceString = convertChoiceToString(playerChoice);
+        playerChoiceDisplay.textContent = `${playerChoiceString}`;
+        let computerChoice = getComputerChoice();
+        let computerChoiceString = convertChoiceToString(computerChoice);
+        computerChoiceDisplay.textContent = `${computerChoiceString}`;
+        function calcRoundWinner(){
+            if(computerChoice == playerChoice) {
+                outcome = "-";
+                return 0;
             }
-        } else if (computerChoice == 3) {
-            if (playerChoice == 4) {
-                outcome = "WIN";
-                playerWins++;
-                return 1;
-            } else {
-                outcome = "LOSS";
-                computerWins++
-                return 1;
+            // The Following 3 "else if's" handle the win decision logic, round winner console messages & adding to the win counts of CPU or Player.
+                else if (computerChoice == 2) {
+                if (playerChoice == 3) {
+                    outcome = "WIN";
+                    playerWins++;
+                    return 1;
+                } else {
+                    outcome = "LOSS";
+                    computerWins++
+                    return 1;
+                }
+            } else if (computerChoice == 3) {
+                if (playerChoice == 4) {
+                    outcome = "WIN";
+                    playerWins++;
+                    return 1;
+                } else {
+                    outcome = "LOSS";
+                    computerWins++
+                    return 1;
+                }
+            } else if (computerChoice == 4) {
+                if (playerChoice == 2) {
+                    outcome = "WIN";
+                    playerWins++;
+                    return 1;
+                } else {
+                    outcome = "LOSS";
+                    computerWins++;
+                    return 1;
+                }
             }
-        } else if (computerChoice == 4) {
-            if (playerChoice == 2) {
-                outcome = "WIN";
-                playerWins++;
-                return 1;
-            } else {
-                outcome = "LOSS";
-                computerWins++;
-                return 1;
+            // This is an easter egg message, should not ever pop up in-game, I think... 
+            else {
+                outcome = "HUH?";
             }
         }
-        // This is an easter egg message, should not ever pop up in-game, I think... 
-        else {
-            outcome = "HUH?";
+        calcRoundWinner();
+        outcomeDisplay.textContent = `${outcome}`;
+        playerRoundWinsDisplay.textContent = `YOUR WINS: ${playerWins}`;
+        computerRoundWinsDisplay.textContent = `CPU WINS: ${computerWins}`;
+        playerChoice = 0;
+        if (playerWins >= 5 || computerWins >= 5) {
+            if (playerWins > computerWins) {
+                outcome = `CONGRATULATIONS! YOU HAVE WON ${playerWins} to ${computerWins}!`;
+                outcomeDisplay.textContent = `${outcome}`;
+            } else {
+                outcome = `BRUH... 
+                YOU LOST ${playerWins} to ${computerWins}.`;
+                outcomeDisplay.textContent = `${outcome}`;
+            }
+            playerWins = 0;
+            computerWins = 0;
         }
-    }
-    calcRoundWinner();
-    outcomeDisplay.textContent = `${outcome}`;
-    playerRoundWinsDisplay.textContent = `YOUR WINS: ${playerWins}`;
-    computerRoundWinsDisplay.textContent = `CPU WINS: ${computerWins}`;
-    playerChoice = 0;
-    if (playerWins >= 5 || computerWins >= 5) {
-        if (playerWins > computerWins) {
-            outcome = `CONGRATULATIONS! YOU HAVE WON ${playerWins} to ${computerWins}!`;
-            outcomeDisplay.textContent = `${outcome}`;
-        } else {
-            outcome = `BRUH... 
-            YOU LOST ${playerWins} to ${computerWins}.`;
-            outcomeDisplay.textContent = `${outcome}`;
-        }
-        playerWins = 0;
-        computerWins = 0;
     }
 });
