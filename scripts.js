@@ -101,8 +101,7 @@ topContainer.addEventListener("click", (event) => {
                 outcome = `CONGRATULATIONS! YOU HAVE WON ${playerWins} to ${computerWins}!`;
                 outcomeDisplay.textContent = `${outcome}`;
             } else {
-                outcome = `BRUH... 
-                YOU LOST ${playerWins} to ${computerWins}.`;
+                outcome = `YOU LOST ${playerWins} to ${computerWins}.`;
                 outcomeDisplay.textContent = `${outcome}`;
             }
             playerWins = 0;
